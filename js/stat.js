@@ -58,10 +58,12 @@ window.renderStatistics = function (ctx, names, times) {
     var space = 40;
 
     /* draw bar */
-    ctx.fillRect((boardMarginLeft + paddingLeft) + i * (space + barWidth), boardHeight - paddingBottom - barHeight, barWidth, barHeight);
+    var startXPosition = (boardMarginLeft + paddingLeft) + i * (space + barWidth);
+    var startYPosition = boardHeight - paddingBottom - barHeight;
+    ctx.fillRect(startXPosition, startYPosition, barWidth, barHeight);
 
     ctx.fillStyle = '#000';
-    ctx.fillText(name, (boardMarginLeft + paddingLeft) + i * (space + barWidth), boardHeight);
-    ctx.fillText(time, (boardMarginLeft + paddingLeft) + i * (space + barWidth), boardHeight - paddingBottom - barHeight - 10); // avoid stack
+    ctx.fillText(name, startXPosition, boardHeight);
+    ctx.fillText(time, startXPosition, startYPosition - 10); // avoid stack
   }
 };
