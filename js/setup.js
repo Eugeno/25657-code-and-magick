@@ -17,7 +17,7 @@ setupClose.addEventListener('click', function () {
 });
 
 var wizardCoat = document.querySelector('#wizard-coat');
-var wizardCoatColor = [
+var wizardCoatColors = [
   'rgb(101, 137, 164)',
   'rgb(241, 43, 107)',
   'rgb(146, 100, 161)',
@@ -35,23 +35,32 @@ function find(array, value) {
   return -1;
 }
 
-function changeColor(place, object, colors) {
-  if (place === -1 || place === colors.length - 1) {
-    place = 0;
+function getNextIndex(currentIndex, colors) {
+  if (currentIndex === -1 || currentIndex === colors.length - 1) {
+    return 0;
   } else {
-    place += 1;
+    return currentIndex + 1;
   }
-  object.style.fill = colors[place];
+}
+
+function changeColor(currentIndex, object, colors) {
+  var newIndex = getNextIndex(currentIndex, colors);
+  object.style.fill = colors[newIndex];
+}
+
+function changeBackground(currentIndex, object, colors) {
+  var newIndex = getNextIndex(currentIndex, colors);
+  object.style.background = colors[newIndex];
 }
 
 wizardCoat.addEventListener('click', function () {
   var currentColor = wizardCoat.style.fill;
-  var place = find(wizardCoatColor, currentColor);
-  changeColor(place, wizardCoat, wizardCoatColor);
+  var newIndex = find(wizardCoatColors, currentColor);
+  changeColor(newIndex, wizardCoat, wizardCoatColors);
 });
 
 var wizardEyes = document.querySelector('#wizard-eyes');
-var wizardEyesColor = [
+var wizardEyesColors = [
   'black',
   'red',
   'blue',
@@ -61,12 +70,12 @@ var wizardEyesColor = [
 
 wizardEyes.addEventListener('click', function () {
   var currentColor = wizardEyes.style.fill;
-  var place = find(wizardEyesColor, currentColor);
-  changeColor(place, wizardEyes, wizardEyesColor);
+  var place = find(wizardEyesColors, currentColor);
+  changeColor(place, wizardEyes, wizardEyesColors);
 });
 
 var fireball = document.querySelector('.setup-fireball-wrap');
-var fireballColor = [
+var fireballColors = [
   '#ee4830',
   '#30a8ee',
   '#5ce6c0',
@@ -90,17 +99,11 @@ function colorToHex(color) {
 
 
 fireball.addEventListener('click', function () {
-  var currentColor = getComputedStyle(fireball);
-  currentColor = currentColor.backgroundColor;
-  currentColor = colorToHex(currentColor);
-  var place = find(fireballColor, currentColor);
-  changeColor(place, fireball, fireballColor);
-  if (place === -1 || place === fireballColor.length - 1) {
-    place = 0;
-  } else {
-    place += 1;
-  }
-  fireball.style.background = fireballColor[place];
+  var fireballComputedStyle = getComputedStyle(fireball);
+  var currentColor = fireballComputedStyle.backgroundColor;
+  var currentColorInHex = colorToHex(currentColor);
+  var currentIndex = find(fireballColors, currentColorInHex);
+  changeBackground(currentIndex, fireball, fireballColors);
 });
 
 
