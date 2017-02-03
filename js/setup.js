@@ -50,9 +50,7 @@ var setupModalToggle = function () {
   }
 };
 
-setupOpen.addEventListener('click', function () {
-  setupModalToggle();
-});
+setupOpen.addEventListener('click', setupModalToggle);
 
 setupOpen.addEventListener('keydown', function (evt) {
   if (isActivateEvent(evt)) {
@@ -60,9 +58,7 @@ setupOpen.addEventListener('keydown', function (evt) {
   }
 });
 
-setupClose.addEventListener('click', function () {
-  hideSetupElement();
-});
+setupClose.addEventListener('click', hideSetupElement);
 
 setupClose.addEventListener('keydown', function (evt) {
   if (isActivateEvent(evt)) {
@@ -70,9 +66,7 @@ setupClose.addEventListener('keydown', function (evt) {
   }
 });
 
-setupSave.addEventListener('click', function () {
-  hideSetupElement();
-});
+setupSave.addEventListener('click', hideSetupElement);
 
 setupSave.addEventListener('keydown', function (evt) {
   if (isActivateEvent(evt)) {
