@@ -1,19 +1,81 @@
 'use strict';
 
-var setupOpen = document.querySelector('.setup-open');
+var setupOpen = document.querySelector('.setup-open-icon');
 var setupModal = document.querySelector('.setup');
 var setupClose = setupModal.querySelector('.setup-close');
+var setupSave = setupModal.querySelector('.setup-submit');
 
-setupOpen.addEventListener('click', function () {
+var ENTER_KEY_CODE = 13;
+var ESCAPE_KEY_CODE = 27;
+
+setupOpen.setAttribute('role', 'button');
+setupOpen.setAttribute('aria-pressed', 'false');
+setupOpen.setAttribute('tabindex', '0');
+
+setupClose.setAttribute('role', 'button');
+setupClose.setAttribute('aria-pressed', 'false');
+setupClose.setAttribute('tabindex', '0');
+
+setupSave.setAttribute('role', 'button');
+setupSave.setAttribute('aria-pressed', 'false');
+setupSave.setAttribute('tabindex', '0');
+
+var isActivateEvent = function (evt) {
+  return evt.keyCode === ENTER_KEY_CODE;
+};
+
+var showSetupElement = function () {
+  setupModal.classList.remove('invisible');
+  document.addEventListener('keydown', setupKeydownHandler);
+  setupOpen.setAttribute('aria-pressed', 'true');
+};
+
+var hideSetupElement = function () {
+  setupModal.classList.add('invisible');
+  document.removeEventListener('keydown', setupKeydownHandler);
+  setupOpen.setAttribute('aria-pressed', 'false');
+};
+
+var setupKeydownHandler = function (evt) {
+  if (evt.keyCode === ESCAPE_KEY_CODE) {
+    if (evt.target !== document.querySelector('input')) {
+      hideSetupElement();
+    } else {
+      document.activeElement.blur();
+    }
+  }
+};
+
+var setupModalToggle = function () {
   if (setupModal.classList.contains('invisible')) {
-    setupModal.classList.remove('invisible');
+    showSetupElement();
   } else {
-    setupModal.classList.add('invisible');
+    hideSetupElement();
+  }
+};
+
+setupOpen.addEventListener('click', setupModalToggle);
+
+setupOpen.addEventListener('keydown', function (evt) {
+  if (isActivateEvent(evt)) {
+    setupModalToggle();
   }
 });
 
-setupClose.addEventListener('click', function () {
-  setupModal.classList.add('invisible');
+setupClose.addEventListener('click', hideSetupElement);
+
+setupClose.addEventListener('keydown', function (evt) {
+  if (isActivateEvent(evt)) {
+    hideSetupElement();
+  }
+});
+
+setupSave.addEventListener('click', hideSetupElement);
+
+setupSave.addEventListener('keydown', function (evt) {
+  if (isActivateEvent(evt)) {
+    hideSetupElement();
+  }
 });
 
 var wizardCoat = document.querySelector('#wizard-coat');
