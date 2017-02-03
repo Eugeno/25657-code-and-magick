@@ -37,8 +37,12 @@ var hideSetupElement = function () {
 };
 
 var setupKeydownHandler = function (evt) {
-  if (evt.keyCode === ESCAPE_KEY_CODE && evt.target !== document.querySelector('input')) {
-    hideSetupElement();
+  if (evt.keyCode === ESCAPE_KEY_CODE) {
+    if (evt.target !== document.querySelector('input')) {
+      hideSetupElement();
+    } else {
+      document.activeElement.blur();
+    }
   }
 };
 
